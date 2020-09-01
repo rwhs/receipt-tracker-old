@@ -12,3 +12,12 @@ from models import User
 @app.route('/')
 def hello_world():
     return 'Hello world'
+
+@app.route('/test')
+def get_all_users():
+    u = User.query.all()
+
+    for user in u:
+        print(f'User ID: {user.id}, Email: {user.email}')
+
+    return 'Test'
