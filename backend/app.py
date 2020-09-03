@@ -2,22 +2,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config import POSTGRES_URL, POSTGRES_DATABASE, POSTGRES_USERNAME, POSTGRES_PASSWORD
 
+# Initialize app
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_URL}/{POSTGRES_DATABASE}'
 db = SQLAlchemy(app)
 
-from models import User
+from api.users import users
+
+app.register_blueprint(users)
 
 
 @app.route('/')
 def hello_world():
     return 'Hello world'
-
-@app.route('/test')
-def get_all_users():
-    u = User.query.all()
-
-    for user in u:
-        print(f'User ID: {user.id}, Email: {user.email}')
-
-    return 'Test'
